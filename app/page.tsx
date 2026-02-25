@@ -20,14 +20,14 @@ import {
   import type { Idl } from "@project-serum/anchor";
   import { PublicKey, clusterApiUrl } from "@solana/web3.js";
   import idl from "./idl.json"; // your program's IDL JSON file
-import Home from "@/components/home";
-import { AddWalletPopup } from "@/components/wallet";
 import "@solana/wallet-adapter-react-ui/styles.css"
+import Home from "@/pages/home";
 
   
   const Page = () => {
     return (
-      <main className="min-h-screen flex justify-center items-center">
+      <main className="min-h-screen flex bg-black/95
+      justify-center items-center">
         <ConnectionProvider endpoint={clusterApiUrl('devnet')}>
           <WalletProvider wallets={[]}>
             <WalletModalProvider>
