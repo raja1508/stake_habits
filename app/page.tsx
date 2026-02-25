@@ -7,21 +7,13 @@ import {
   } from "@solana/wallet-adapter-react";
   import {
     WalletModalProvider,
-    WalletMultiButton,
   } from "@solana/wallet-adapter-react-ui";
   
   
-  import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
-  import {
-    AnchorProvider,
-    Program,
-    BN,
-  } from "@project-serum/anchor";
-  import type { Idl } from "@project-serum/anchor";
-  import { PublicKey, clusterApiUrl } from "@solana/web3.js";
-  import idl from "./idl.json"; // your program's IDL JSON file
+
 import "@solana/wallet-adapter-react-ui/styles.css"
 import Home from "@/pages/home";
+import { clusterApiUrl } from "@solana/web3.js";
 
   
   const Page = () => {

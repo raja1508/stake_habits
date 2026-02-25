@@ -1,0 +1,101 @@
+import { PublicKey } from "@solana/web3.js";
+import { Idl } from "@coral-xyz/anchor";
+
+export type StakeHabits = {
+  version: "0.1.0";
+  name: "stake_habits";
+  instructions: [
+    {
+      name: "createCommitment";
+      accounts: [
+        { name: "user"; isMut: true; isSigner: true },
+        { name: "commitmentAccount"; isMut: true; isSigner: false },
+        { name: "failureAccount"; isMut: false; isSigner: false },
+        { name: "systemProgram"; isMut: false; isSigner: false }
+      ];
+      args: [
+        { name: "commitmentId"; type: "u64" },
+        { name: "stakeAmount"; type: "u64" },
+        { name: "startTime"; type: "i64" },
+        { name: "endTime"; type: "i64" },
+        { name: "requiredCheckins"; type: "u64" }
+      ];
+    },
+    {
+      name: "submitCheckins";
+      accounts: [
+        { name: "user"; isMut: true; isSigner: true },
+        { name: "commitmentAccount"; isMut: true; isSigner: false },
+        { name: "systemProgram"; isMut: false; isSigner: false }
+      ];
+      args: [{ name: "commitmentId"; type: "u64" }];
+    },
+    {
+      name: "resolveCommitment";
+      accounts: [
+        { name: "user"; isMut: true; isSigner: true },
+        { name: "commitmentAccount"; isMut: true; isSigner: false },
+        { name: "failureAccount"; isMut: false; isSigner: false },
+        { name: "systemProgram"; isMut: false; isSigner: false }
+      ];
+      args: [{ name: "commitmentId"; type: "u64" }];
+    },
+    {
+      name: "showCommitment";
+      accounts: [
+        { name: "user"; isMut: true; isSigner: true },
+        { name: "commitmentAccount"; isMut: true; isSigner: false },
+        { name: "systemProgram"; isMut: false; isSigner: false }
+      ];
+      args: [{ name: "commitmentId"; type: "u64" }];
+    }
+  ];
+  accounts: [
+    {
+      name: "CommitmentAccount";
+      type: {
+        kind: "struct";
+        fields: [
+          { name: "id"; type: "u64" },
+          { name: "user"; type: "publicKey" },
+          { name: "failureAccount"; type: "publicKey" },
+          { name: "stakeAmount"; type: "u64" },
+          { name: "startTime"; type: "i64" },
+          { name: "endTime"; type: "i64" },
+          { name: "completedCheckins"; type: "u64" },
+          { name: "requiredCheckins"; type: "u64" },
+          { name: "lastCheckins"; type: "i64" },
+          { name: "status"; type: { defined: "CommitmentStatus" } },
+          { name: "bump"; type: "u8" }
+        ];
+      };
+    }
+  ];
+  types: [
+    {
+      name: "CommitmentStatus";
+      type: {
+        kind: "enum";
+        variants: [
+          { name: "Created" },
+          { name: "Active" },
+          { name: "Ended" },
+          { name: "Resolved"; fields: ["u8"] }
+        ];
+      };
+    }
+  ];
+  errors: [
+    { code: 6000; name: "InvalidAmount"; msg: "invalid amount" },
+    { code: 6001; name: "CommitmentEnded"; msg: "the commitment is ended" },
+    { code: 6002; name: "NotActive"; msg: "the commitment is not active" },
+    { code: 6003; name: "InvalidCheckins"; msg: "required checkins is invalid" },
+    { code: 6004; name: "InvalidTimeWindow"; msg: "invalid start time or end time" },
+    { code: 6005; name: "CommitmentAlreadyCreated"; msg: "commitment already created" },
+    { code: 6006; name: "InvalidAccount"; msg: "invalid pda sended" },
+    { code: 6007; name: "CommitmentNotEnded"; msg: "commitemnt not ended" },
+    { code: 6008; name: "InvalidTransferAccount"; msg: "invalid transfer account" }
+  ];
+};
+
+export const IDL: StakeHabits = {} as StakeHabits;

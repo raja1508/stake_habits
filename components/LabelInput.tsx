@@ -1,35 +1,30 @@
-import React from 'react'
 
-const LabelInput = () => {
+interface LabelInputProps {
+    label: string,
+    INPUT_TYPES: string[],
+    inputType: string,
+    setInputType: (inputType: string) => void,
+    customInputType?: string,
+    setCustomInputType?: (input: string) => void,
+    placeholder?: string,
+}
+
+
+const LabelInput = ({label, INPUT_TYPES, inputType, setInputType, customInputType, setCustomInputType, placeholder}: LabelInputProps) => {
   return (
     <>
-            {/* Goal Section */}
-            <div className="space-y-5">
-          
-            {/* Title Input */}
+            {/* Input */}
             <div>
               <label className="block text-sm text-zinc-400 mb-2">
-                Goal Title
+                {label}
               </label>
-              <input
-                type="text"
-                placeholder="Run 5km daily"
-                className="w-full bg-zinc-800 text-white rounded-xl px-4 py-3 outline-none focus:ring focus:ring-green-500"
-                />
-            </div>
-  
-            {/* Category */}
-            <div>
-              <label className="block text-sm text-zinc-400 mb-2">
-                Category
-              </label>
-              <div className="grid grid-cols-5 gap-2">
-                {["Study", "Workout", "Coding", "Meditation", "Custom"].map((item) => (
+              <div className="grid grid-cols-5 gap-3">
+                {INPUT_TYPES.map((item) => (
                     <button
                     key={item}
-                    onClick={() => setCategory(item)}
+                    onClick={() => setInputType(item)}
                     className={`py-2 rounded-xl border ${
-                        category === item
+                        inputType === item
                         ? "bg-green-600 border-green-600 text-white"
                         : "bg-zinc-800 border-zinc-700 text-zinc-300"
                     }`}
@@ -37,19 +32,23 @@ const LabelInput = () => {
                     {item} 
                   </button>
   
-))}
+                ))}
               </div>
   
-              {category === "Custom" && (
+
+            {/* Custom Input */}
+              {inputType.toLowerCase() === "custom" && setCustomInputType && (
                   <input
                   type="text"
-                  placeholder="Run 5km daily"
+                  placeholder={placeholder}
                   className="mt-4 w-full bg-zinc-800 text-white 
                   rounded-xl px-4 py-3 outline-none focus:ring focus:ring-green-500"
+                  value={customInputType}
+                  onChange={(e) => setCustomInputType(e.target.value)}
                   />
                 )}
             </div>
-            </div>
+
     </>
   )
 }

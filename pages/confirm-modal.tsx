@@ -2,11 +2,12 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 
+
 interface Props {
-  open: boolean;
-  onClose: () => void;
-  onConfirm: () => void;
-  stake: number;
+    open: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+    stake: number;
 }
 
 export default function ConfirmModal({
